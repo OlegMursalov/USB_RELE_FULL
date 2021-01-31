@@ -1,0 +1,10 @@
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\bin\Debug\UsbReleMainApp.exe.config
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\bin\Debug\UsbReleMainApp.exe
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\bin\Debug\UsbReleMainApp.pdb
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\bin\Debug\NLog.dll
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\bin\Debug\NLog.xml
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\obj\Debug\UsbReleMainApp.csprojAssemblyReference.cache
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\obj\Debug\UsbReleMainApp.csproj.CoreCompileInputs.cache
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\obj\Debug\UsbReleMainApp.csproj.CopyComplete
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\obj\Debug\UsbReleMainApp.exe
+C:\Users\Олег\source\repos\USB_RELE_FULL\UsbReleMainApp\obj\Debug\UsbReleMainApp.pdb

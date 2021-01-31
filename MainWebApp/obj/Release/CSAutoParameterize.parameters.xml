@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="MySqlConnectionStr-Web.config Connection String" description="MySqlConnectionStr Строка подключения в web.config, используемая приложением для доступа к базе данных." defaultValue="Database=u1109918_default;Data Source=localhost;User Id=u1109_918default;Password=VnsPL4XSa5;Integrated Security=false;CharSet=utf8" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Олег\\source\\repos\\MainWebApp\\MainWebApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MySqlConnectionStr']/@connectionString" />
+  </parameter>
+</parameters>
