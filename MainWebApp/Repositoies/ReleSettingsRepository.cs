@@ -51,6 +51,7 @@ namespace MainWebApp.Repositoies
                     myConnection.Close();
                 }
             }
+
             catch (Exception ex)
             {
                 errMessage = GetInfoByException(ex);
