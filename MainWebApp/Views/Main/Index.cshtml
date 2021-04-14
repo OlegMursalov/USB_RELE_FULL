@@ -10,12 +10,12 @@
             var item = Model[i];
             <div class="col-md-4 rele-block">
                 <form method="post" class="form-inline" id="usb-rele-@item.Id" action="Update">
-                    <h4>USB RELE PORT @item.Id</h4>
+                    <h4>USB RELE PORT <span style="color: red;">@item.Id</span></h4>
                     <div class="form-group">
-                        <p>Время установки настроек <input type="datetime" id="install_datetime" value="@item.InstallDate" disabled="disabled"/></p>
+                        <p>Время установки настроек <input type="datetime" id="install_datetime" value="@item.InstallDate" disabled="disabled" /></p>
                         <p>Открываетcя каждые <input min="1" type="number" id="recurrency_day" value="@item.RecurrencyDay" /> сутки</p>
                         <p>На <input type="number" min="1" id="open_sec_amount" value="@item.OpenSecAmount" /> секунд</p>
-                        <p>В указанное время</p>
+                        <p>В указанное время (по МСК)</p>
                         <table class="table" id="times-table">
                             <thead>
                                 <tr>
@@ -26,16 +26,20 @@
                             <tbody>
                                 @for (int j = 0; j < item.Times.Length; j++)
                                 {
-                                    <tr class="time">
-                                        <td>@j</td>
+                                    <tr class="time" id="time_@j">
+                                        <td class="number-@j">@j</td>
                                         <td>
                                             <input type="number" class="hour-component" id="time_hour_@j" value="@item.Times[j].Hour" min="0" max="24">:
                                             <input type="number" class="minute-component" id="time_minute_@j" value="@item.Times[j].Minute" min="0" max="60">
+                                        </td>
+                                        <td>
+                                            <img class="btn" src="/Content/Images/x.svg" onclick="MainJs.removeTime('@item.Id');">
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+                        <input type="button" class="btn btn-info" onclick="MainJs.addTime('@item.Id');" value="Добавить время" />
                         <input type="button" class="btn btn-info" onclick="MainJs.updateRele('@item.Id');" value="Обновить" />
                     </div>
                 </form>
@@ -58,7 +62,9 @@
                 let day = install_datetime.getDate();
                 let hours = $(v).find('.hour-component').val();
                 let minutes = $(v).find('.minute-component').val();
-                times.push(new Date(year, monthIndex, day, hours, minutes));
+                if (hours && minutes) {
+                    times.push(new Date(year, monthIndex, day, hours, minutes));
+                }
             });
             $.ajax({
                 url: '/Main/Update',
@@ -76,6 +82,26 @@
                         window.location.reload();
                     }
                 }
+            });
+        },
+        addTime: function (id) {
+            debugger;
+            let form = $('#usb-rele-' + id);
+            let timesTable = $(form).find('#times-table');
+            let amount = $(timesTable).find('tr.time').length;
+            $(timesTable).append('<tr class="time" id="time_' + amount + '">' +
+                '<td class="number-' + amount + '">' + amount + '</td><td>' +
+                '<input type="number" class="hour-component" id="time_hour_' + amount + '" value="" min="0" max="24">:' +
+                '<input type="number" class="minute-component" id="time_minute_' + amount + '" value="" min="0" max="60"></td>' +
+                '<td><img class="btn" src="/Content/Images/x.svg" onclick="MainJs.removeTime("' + id + '");"></tr>');
+        },
+        removeTime: function (id) {
+            debugger;
+            let form = $('#usb-rele-' + id);
+            $(event.target).parent().parent().remove();
+            $(form).find('#times-table').find('tr.time').each(function (i, v) {
+                let numberTd = $(v).find('.number-' + i);
+                $(numberTd).text(i);
             });
         }
     };

@@ -6,11 +6,11 @@ namespace MainWebApp.Controllers
 {
     public class MainController : Controller
     {
-        private readonly ReleSettingsRepository _releSettingsRepository;
+        private readonly ReleSettingsMySqlRepository _releSettingsRepository;
 
         public MainController()
         {
-            _releSettingsRepository = new ReleSettingsRepository();
+            _releSettingsRepository = new ReleSettingsMySqlRepository();
         }
 
         public ActionResult Index()
@@ -30,7 +30,8 @@ namespace MainWebApp.Controllers
         [HttpPost]
         public bool Update(DTO.UsbRelePortSettingsDto usbReleSettings)
         {
-            _releSettingsRepository.Update(usbReleSettings);
+            var errMessage = string.Empty;
+            _releSettingsRepository.Update(usbReleSettings, out errMessage);
             return true;
         }
     }
