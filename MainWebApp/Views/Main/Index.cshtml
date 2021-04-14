@@ -65,7 +65,7 @@
                 let hours = $(v).find('.hour-component').val();
                 let minutes = $(v).find('.minute-component').val();
                 if (hours && minutes) {
-                    times.push(new Date(year, monthIndex, day, hours, minutes));
+                    times.push(new Date(year, monthIndex, day, hours, minutes).toJSON());
                 }
             });
             $.ajax({
