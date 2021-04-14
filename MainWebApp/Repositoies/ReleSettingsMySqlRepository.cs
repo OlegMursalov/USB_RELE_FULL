@@ -39,7 +39,7 @@ namespace MainWebApp.Repositoies
                             {
                                 result.Add(new UsbRelePortSettingsDto
                                 {
-                                    Id = reader.GetInt32(1),
+                                    Id = reader.GetInt32(0),
                                     OpenSecAmount = !reader.IsDBNull(1) ? reader.GetInt32(1) : 0,
                                     InstallDate = !reader.IsDBNull(2) ? reader.GetDateTime(2) : DateTime.Now,
                                     RecurrencyDay = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
@@ -59,44 +59,6 @@ namespace MainWebApp.Repositoies
             return result.ToArray();
         }
 
-        public UsbRelePortSettingsDto[] GetAllFake()
-        {
-            var result = new List<UsbRelePortSettingsDto>();
-
-            result.Add(new UsbRelePortSettingsDto
-            {
-                Id = 1,
-                OpenSecAmount = 60,
-                RecurrencyDay = 2,
-                InstallDate = new DateTime(2021, 1, 21),
-                Times = new DateTime[]
-                {
-                    new DateTime(2021, 1, 1),
-                    new DateTime(2021, 1, 2),
-                    new DateTime(2021, 1, 3),
-                    new DateTime(2021, 1, 4),
-                    new DateTime(2021, 1, 5),
-                    new DateTime(2021, 1, 5)
-                }
-            });
-
-            result.Add(new UsbRelePortSettingsDto
-            {
-                Id = 2,
-                RecurrencyDay = 1,
-                OpenSecAmount = 120,
-                InstallDate = new DateTime(2021, 1, 21),
-                Times = new DateTime[]
-                {
-                    new DateTime(2021, 2, 1),
-                    new DateTime(2021, 2, 5),
-                    new DateTime(2021, 2, 5)
-                }
-            });
-
-            return result.ToArray();
-        }
-
         public void Update(UsbRelePortSettingsDto usbRelePortSettingsDto, out string errMessage)
         {
             errMessage = string.Empty;
@@ -111,7 +73,7 @@ namespace MainWebApp.Repositoies
                     var timesJson = JsonConvert.SerializeObject(usbRelePortSettingsDto.Times);
                     var installDate = usbRelePortSettingsDto.InstallDate;
                     var recurrencyDay = usbRelePortSettingsDto.RecurrencyDay;
-                    sb.AppendLine($"SET `OpenSecAmount`={usbRelePortSettingsDto.OpenSecAmount},`Times`=`{timesJson}`,`InstallDate`=`{installDate}`,`RecurrencyDay`=`{recurrencyDay}`");
+                    sb.AppendLine($"SET `OpenSecAmount`={usbRelePortSettingsDto.OpenSecAmount},`Times`=`{timesJson}`,`RecurrencyDay`=`{recurrencyDay}`");
                     sb.AppendLine($"WHERE `Id` = {usbRelePortSettingsDto.Id}");
                     var myCommand = new MySqlCommand(GetUTF8String(sb.ToString()), myConnection);
                     myCommand.ExecuteNonQuery();
