@@ -12,7 +12,7 @@
                 <form method="post" class="form-inline" id="usb-rele-@item.Id" action="Update">
                     <h4>USB RELE PORT <span style="color: red;">@item.Id</span></h4>
                     <div class="form-group">
-                        <p>Время установки настроек <input type="datetime" id="install_datetime" value="@item.InstallDate" disabled="disabled" /></p>
+                        <p>Время установки настроек <input type="datetime" id="install_datetime" value="@item.InstallDate" /></p>
                         <p>Открываетcя каждые <input min="1" type="number" id="recurrency_day" value="@item.RecurrencyDay" /> сутки</p>
                         <p>На <input type="number" min="1" id="open_sec_amount" value="@item.OpenSecAmount" /> секунд</p>
                         <p>В указанное время (по МСК)</p>
@@ -52,11 +52,13 @@
         updateRele: function (id) {
             debugger;
             let form = $('#usb-rele-' + id);
-            let install_datetime = new Date();
+            let dateParts = $('#install_datetime').val().split(' ')[0].split('.');
+            let install_datetime = new Date(dateParts[2], dateParts[1], dateParts[0]);
             let recurrency_day = $(form).find('#recurrency_day').val();
             let open_sec_amount = $(form).find('#open_sec_amount').val();
             let times = [];
             $(form).find('#times-table').find('tr.time').each(function (i, v) {
+                debugger;
                 let year = install_datetime.getFullYear();
                 let monthIndex = install_datetime.getMonth();
                 let day = install_datetime.getDate();
@@ -71,7 +73,7 @@
                 method: 'post',
                 data: {
                     "Id": id,
-                    "InstallDate": install_datetime,
+                    "InstallDate": install_datetime.toJSON(),
                     "RecurrencyDay": recurrency_day,
                     "OpenSecAmount": open_sec_amount,
                     "Times": times
