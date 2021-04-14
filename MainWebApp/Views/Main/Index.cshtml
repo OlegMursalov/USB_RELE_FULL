@@ -52,15 +52,16 @@
         updateRele: function (id) {
             debugger;
             let form = $('#usb-rele-' + id);
-            let dateParts = $('#install_datetime').val().split(' ')[0].split('.');
-            let install_datetime = new Date(dateParts[2], dateParts[1], dateParts[0]);
+            let installDateTimeElem = $(form).find('#install_datetime');
+            let dateParts = $(installDateTimeElem).val().split(' ')[0].split('.');
+            let install_datetime = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
             let recurrency_day = $(form).find('#recurrency_day').val();
             let open_sec_amount = $(form).find('#open_sec_amount').val();
             let times = [];
             $(form).find('#times-table').find('tr.time').each(function (i, v) {
                 debugger;
                 let year = install_datetime.getFullYear();
-                let monthIndex = install_datetime.getMonth();
+                let monthIndex = install_datetime.getMonth() - 1;
                 let day = install_datetime.getDate();
                 let hours = $(v).find('.hour-component').val();
                 let minutes = $(v).find('.minute-component').val();

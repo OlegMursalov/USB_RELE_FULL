@@ -43,7 +43,8 @@ namespace MainWebApp.Repositoies
                                     OpenSecAmount = !reader.IsDBNull(1) ? reader.GetInt32(1) : 0,
                                     InstallDate = !reader.IsDBNull(2) ? reader.GetDateTime(2) : DateTime.Now,
                                     RecurrencyDay = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
-                                    Times = !reader.IsDBNull(4) ? JsonConvert.DeserializeObject<DateTime[]>(reader.GetString(4)) : new DateTime[0]
+                                    Times = (!reader.IsDBNull(4) && !string.IsNullOrWhiteSpace(reader.GetString(4))) 
+                                        ? JsonConvert.DeserializeObject<DateTime[]>(reader.GetString(4)) : new DateTime[0]
                                 });
                             }
                         }
@@ -70,12 +71,14 @@ namespace MainWebApp.Repositoies
                     myConnection.Open();
                     var sb = new StringBuilder();
                     sb.AppendLine("UPDATE `usbreleportsettings`");
-                    var timesJson = JsonConvert.SerializeObject(usbRelePortSettingsDto.Times);
+                    var timesJson = usbRelePortSettingsDto.Times != null && usbRelePortSettingsDto.Times.Length > 0
+                        ? JsonConvert.SerializeObject(usbRelePortSettingsDto.Times) : null;
                     var installDate = usbRelePortSettingsDto.InstallDate;
                     var recurrencyDay = usbRelePortSettingsDto.RecurrencyDay;
-                    sb.AppendLine($"SET `OpenSecAmount`={usbRelePortSettingsDto.OpenSecAmount},`Times`=`{timesJson}`,`RecurrencyDay`=`{recurrencyDay}`");
+                    sb.AppendLine($"SET `OpenSecAmount`={usbRelePortSettingsDto.OpenSecAmount},`Times`='{timesJson}',`RecurrencyDay`={recurrencyDay},`InstallDate`='{usbRelePortSettingsDto.InstallDate.ToString("yyyy-MM-dd 00:00:00")}'");
                     sb.AppendLine($"WHERE `Id` = {usbRelePortSettingsDto.Id}");
-                    var myCommand = new MySqlCommand(GetUTF8String(sb.ToString()), myConnection);
+                    var cmdTxt = GetUTF8String(sb.ToString());
+                    var myCommand = new MySqlCommand(cmdTxt, myConnection);
                     myCommand.ExecuteNonQuery();
                     myConnection.Close();
                 }
