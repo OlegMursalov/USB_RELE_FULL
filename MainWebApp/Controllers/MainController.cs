@@ -6,6 +6,8 @@ namespace MainWebApp.Controllers
 {
     public class MainController : Controller
     {
+        private const string KEY = "00000000-0000-0000-0000-000000000000";
+
         private readonly ReleSettingsMySqlRepository _releSettingsRepository;
 
         public MainController()
@@ -13,17 +15,25 @@ namespace MainWebApp.Controllers
             _releSettingsRepository = new ReleSettingsMySqlRepository();
         }
 
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string key)
         {
-            var errMessage = string.Empty;
-            var result = _releSettingsRepository.GetAll(out errMessage);
-            if (string.IsNullOrEmpty(errMessage))
+            if (key == KEY)
             {
-                return View(result);
+                var errMessage = string.Empty;
+                var result = _releSettingsRepository.GetAll(out errMessage);
+                if (string.IsNullOrEmpty(errMessage))
+                {
+                    return View(result);
+                }
+                else
+                {
+                    return View("Error", model: errMessage);
+                }
             }
             else
             {
-                return View("Error", model: errMessage);
+                return View("Error", model: "Введите корректный ключ в строку браузера для доступа к настройкам USB RELE портов");
             }
         }
 
