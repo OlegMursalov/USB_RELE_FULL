@@ -27,7 +27,7 @@
                                 @for (int j = 0; j < item.Times.Length; j++)
                                 {
                                     <tr class="time" id="time_@j">
-                                        <td class="number-@j">@j</td>
+                                        <td class="number">@j</td>
                                         <td>
                                             <input type="number" class="hour-component" id="time_hour_@j" value="@item.Times[j].Hour" min="0" max="24">:
                                             <input type="number" class="minute-component" id="time_minute_@j" value="@item.Times[j].Minute" min="0" max="60">
@@ -90,18 +90,20 @@
             let timesTable = $(form).find('#times-table');
             let amount = $(timesTable).find('tr.time').length;
             $(timesTable).append('<tr class="time" id="time_' + amount + '">' +
-                '<td class="number-' + amount + '">' + amount + '</td><td>' +
+                '<td class="number">' + amount + '</td><td>' +
                 '<input type="number" class="hour-component" id="time_hour_' + amount + '" value="" min="0" max="24">:' +
                 '<input type="number" class="minute-component" id="time_minute_' + amount + '" value="" min="0" max="60"></td>' +
-                '<td><img class="btn" src="/Content/Images/x.svg" onclick="MainJs.removeTime("' + id + '");"></tr>');
+                '<td><img class="btn" src="/Content/Images/x.svg" onclick="MainJs.removeTime(' + id + ');"></tr>');
         },
         removeTime: function (id) {
             debugger;
+            let x = 0;
             let form = $('#usb-rele-' + id);
             $(event.target).parent().parent().remove();
             $(form).find('#times-table').find('tr.time').each(function (i, v) {
-                let numberTd = $(v).find('.number-' + i);
-                $(numberTd).text(i);
+                let numberTd = $(v).find('.number');
+                $(numberTd).html(x);
+                x++;
             });
         }
     };
